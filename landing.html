@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Linakariima — Where Ideas Connect</title>
+  <link rel="canonical" href="https://linakariima.github.io/landing.html">
+  <meta property="og:title" content="Linakariima — Where Ideas Connect">
+  <meta property="og:description" content="Art, philosophy, science, and policy — connected through stories.">
+  <meta property="og:type" content="website">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --cream: #FAF7F2;
+      --cream-dark: #F0EBE3;
+      --gold: #C9A96E;
+      --gold-dark: #A8864A;
+      --gold-light: #EDD9A3;
+      --black: #0D0D0D;
+      --charcoal: #2A2A2A;
+      --gray: #6B6B6B;
+      --gray-light: #9A9A9A;
+      --border: #E5DDD0;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ─── SLIDESHOW ─── */
+    .slideshow {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+      pointer-events: none;
+    }
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* ─── ACT SLIDES ─── */
+    .act-slide {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 40px 48px;
+      gap: 0;
+    }
+
+    .act-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.7rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold-dark);
+      margin-bottom: 20px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s;
+    }
+    .slide.active .act-number {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .act-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 600;
+      color: var(--black);
+      line-height: 1.2;
+      margin-bottom: 20px;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.8s ease 0.5s, transform 0.8s ease 0.5s;
+    }
+    .slide.active .act-title {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .act-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      font-style: italic;
+      color: var(--gray);
+      line-height: 1.6;
+      max-width: 480px;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.8s ease 0.7s, transform 0.8s ease 0.7s;
+    }
+    .slide.active .act-subtitle {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .act-tags {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 28px;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.8s ease 0.9s, transform 0.8s ease 0.9s;
+    }
+    .slide.active .act-tags {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .act-tag {
+      font-size: 0.65rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gold-dark);
+      border: 1px solid var(--gold-light);
+      border-radius: 20px;
+      padding: 5px 14px;
+      background: rgba(237, 217, 163, 0.15);
+    }
+
+    /* ─── CONSTELLATION SLIDE ─── */
+    .constellation-slide {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: var(--cream-dark);
+      padding: 40px;
+    }
+
+    .constellation-svg {
+      width: min(600px, 90vw);
+      height: auto;
+    }
+
+    .const-node {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      fill: var(--gold-dark);
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+    .slide.active .const-node {
+      opacity: 1;
+    }
+    .const-node:nth-child(1) { transition-delay: 0.2s; }
+    .const-node:nth-child(2) { transition-delay: 0.4s; }
+    .const-node:nth-child(3) { transition-delay: 0.6s; }
+    .const-node:nth-child(4) { transition-delay: 0.8s; }
+    .const-node:nth-child(5) { transition-delay: 1.0s; }
+
+    .const-line {
+      stroke: var(--gold-light);
+      stroke-width: 1;
+      fill: none;
+      stroke-dasharray: 200;
+      stroke-dashoffset: 200;
+      transition: stroke-dashoffset 1.2s ease;
+    }
+    .slide.active .const-line {
+      stroke-dashoffset: 0;
+    }
+    .const-line:nth-child(1) { transition-delay: 0.1s; }
+    .const-line:nth-child(2) { transition-delay: 0.25s; }
+    .const-line:nth-child(3) { transition-delay: 0.4s; }
+    .const-line:nth-child(4) { transition-delay: 0.55s; }
+    .const-line:nth-child(5) { transition-delay: 0.7s; }
+
+    .const-center {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 13px;
+      font-style: italic;
+      fill: var(--charcoal);
+      text-anchor: middle;
+      opacity: 0;
+      transition: opacity 0.8s ease 0.8s;
+    }
+    .slide.active .const-center {
+      opacity: 1;
+    }
+
+    /* ─── NAV DOTS ─── */
+    .nav-dots {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 10;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--border);
+      transition: background 0.3s, transform 0.3s;
+      cursor: pointer;
+    }
+    .dot.active {
+      background: var(--gold);
+      transform: scale(1.3);
+    }
+
+    /* ─── CHANNEL LINKS ─── */
+    .channel-bar {
+      border-top: 1px solid var(--border);
+      background: var(--cream-dark);
+      padding: 20px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+    .channel-bar.visible {
+      opacity: 1;
+    }
+
+    .channel-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .channel-brand-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--black);
+    }
+    .channel-brand-sub {
+      font-size: 0.65rem;
+      color: var(--gray);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .channel-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .ch-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      letter-spacing: 0.5px;
+      color: var(--charcoal);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 7px 16px;
+      background: var(--cream);
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s, color 0.2s;
+    }
+    .ch-btn:hover {
+      border-color: var(--gold);
+      background: rgba(201, 169, 110, 0.08);
+      color: var(--gold-dark);
+    }
+
+    /* ─── LOGO LOCKUP ─── */
+    .logo-lockup {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.8rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold-dark);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 600px) {
+      .act-slide { padding: 32px 24px; }
+      .channel-bar { padding: 16px 20px; flex-direction: column; text-align: center; }
+      .logo-lockup { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="slideshow" id="slideshow">
+
+  <!-- ── SLIDE 1: ACT ONE ── -->
+  <div class="slide act-slide active" data-index="0">
+    <span class="act-number">Act I</span>
+    <h1 class="act-title">How I Found the Thread</h1>
+    <p class="act-subtitle">Art, philosophy, mythology, cinema — each one a door. Each one asking the same question: what does it mean to understand?</p>
+    <div class="act-tags">
+      <span class="act-tag">Seni</span>
+      <span class="act-tag">Filsafat</span>
+      <span class="act-tag">Film</span>
+      <span class="act-tag">Mitologi</span>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 2: CONSTELLATION ── -->
+  <div class="slide constellation-slide" data-index="1">
+    <svg class="constellation-svg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+      <!-- Lines connecting nodes -->
+      <line class="const-line" x1="300" y1="150" x2="120" y2="80"/>
+      <line class="const-line" x1="300" y1="150" x2="480" y2="80"/>
+      <line class="const-line" x1="300" y1="150" x2="150" y2="240"/>
+      <line class="const-line" x1="300" y1="150" x2="450" y2="240"/>
+      <line class="const-line" x1="300" y1="150" x2="300" y2="260"/>
+
+      <!-- Center dot -->
+      <circle cx="300" cy="150" r="4" fill="#C9A96E" opacity="0.8"/>
+
+      <!-- Node labels -->
+      <text class="const-node" x="120" y="65">Seni</text>
+      <text class="const-node" x="480" y="65" text-anchor="end">Filsafat</text>
+      <text class="const-node" x="150" y="258">Sains</text>
+      <text class="const-node" x="450" y="258" text-anchor="end">Kebijakan</text>
+      <text class="const-node" x="300" y="278" text-anchor="middle">Cerita</text>
+
+      <!-- Center text -->
+      <text class="const-center" x="300" y="115">semuanya terhubung</text>
+    </svg>
+  </div>
+
+  <!-- ── SLIDE 3: ACT TWO ── -->
+  <div class="slide act-slide" data-index="2">
+    <span class="act-number">Act II</span>
+    <h1 class="act-title">The Bridge Between Worlds</h1>
+    <p class="act-subtitle">Why does a Renaissance painting echo in a vaccine campaign? Why does a policy feel like a story badly told? The connection is the craft.</p>
+    <div class="act-tags">
+      <span class="act-tag">Komunikasi</span>
+      <span class="act-tag">Kepercayaan Publik</span>
+      <span class="act-tag">Digital</span>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 4: CONSTELLATION ── -->
+  <div class="slide constellation-slide" data-index="3">
+    <svg class="constellation-svg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+      <line class="const-line" x1="300" y1="150" x2="90" y2="100"/>
+      <line class="const-line" x1="300" y1="150" x2="510" y2="100"/>
+      <line class="const-line" x1="300" y1="150" x2="90" y2="210"/>
+      <line class="const-line" x1="300" y1="150" x2="510" y2="210"/>
+      <line class="const-line" x1="300" y1="150" x2="300" y2="60"/>
+
+      <circle cx="300" cy="150" r="4" fill="#C9A96E" opacity="0.8"/>
+
+      <text class="const-node" x="90" y="90">Narasi</text>
+      <text class="const-node" x="510" y="90" text-anchor="end">Data</text>
+      <text class="const-node" x="90" y="225">Institusi</text>
+      <text class="const-node" x="510" y="225" text-anchor="end">Audiens</text>
+      <text class="const-node" x="300" y="48" text-anchor="middle">Kepercayaan</text>
+
+      <text class="const-center" x="300" y="115">kisah membentuk dunia</text>
+    </svg>
+  </div>
+
+  <!-- ── SLIDE 5: ACT THREE ── -->
+  <div class="slide act-slide" data-index="4">
+    <span class="act-number">Act III</span>
+    <h1 class="act-title">The Research Question</h1>
+    <p class="act-subtitle">How does communication shape public trust in science-based policies? That question sits at the intersection of everything I've done — and everything I'm building.</p>
+    <div class="act-tags">
+      <span class="act-tag">Penelitian</span>
+      <span class="act-tag">Energi</span>
+      <span class="act-tag">Kesehatan</span>
+      <span class="act-tag">Kebijakan</span>
+    </div>
+  </div>
+
+  <!-- Navigation dots -->
+  <div class="nav-dots" id="navDots"></div>
+</div>
+
+<!-- Channel links bar -->
+<div class="channel-bar" id="channelBar">
+  <div class="channel-brand">
+    <span class="channel-brand-name">Linakariima</span>
+    <span class="channel-brand-sub">Seni · Sejarah · Ide</span>
+  </div>
+  <div class="channel-links">
+    <a href="https://www.youtube.com/@linakariima" class="ch-btn" target="_blank" rel="noopener">YouTube</a>
+    <a href="https://www.instagram.com/linakariima" class="ch-btn" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://www.tiktok.com/@linakariima" class="ch-btn" target="_blank" rel="noopener">TikTok</a>
+    <a href="https://catatanalin.substack.com" class="ch-btn" target="_blank" rel="noopener">Benang Merah</a>
+    <a href="https://www.instagram.com/serat.kalbu" class="ch-btn" target="_blank" rel="noopener">Serat Kalbu</a>
+  </div>
+  <div class="logo-lockup">Linakariima</div>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const dotsContainer = document.getElementById('navDots');
+  const channelBar = document.getElementById('channelBar');
+  let current = 0;
+  let timer;
+  const TOTAL = slides.length;
+  const SLIDE_DURATION = 7000; // 7s per slide
+
+  // Build dots
+  slides.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.addEventListener('click', () => goTo(i));
+    dotsContainer.appendChild(d);
+  });
+
+  function goTo(index) {
+    slides[current].classList.remove('active');
+    dotsContainer.children[current].classList.remove('active');
+    current = index;
+    slides[current].classList.add('active');
+    dotsContainer.children[current].classList.add('active');
+    resetTimer();
+  }
+
+  function next() {
+    goTo((current + 1) % TOTAL);
+  }
+
+  function resetTimer() {
+    clearTimeout(timer);
+    timer = setTimeout(next, SLIDE_DURATION);
+  }
+
+  // Show channel bar after first full cycle
+  setTimeout(() => {
+    channelBar.classList.add('visible');
+  }, SLIDE_DURATION + 1500);
+
+  timer = setTimeout(next, SLIDE_DURATION);
+</script>
+
+</body>
+</html>
